@@ -4,10 +4,6 @@ import * as THREE from 'three';
 import { WAYPOINTS } from '../data/portfolio';
 
 // Pre-allocated static vectors for zero garbage collection during camera animation
-const tempPosA = new THREE.Vector3();
-const tempPosB = new THREE.Vector3();
-const tempLookA = new THREE.Vector3();
-const tempLookB = new THREE.Vector3();
 const targetPos = new THREE.Vector3();
 const targetLookAt = new THREE.Vector3();
 const finalTargetPos = new THREE.Vector3();
@@ -19,7 +15,7 @@ const WAYPOINT_VECTORS = WAYPOINTS.map((wp) => ({
 }));
 
 export default function CameraRig({ scrollProgress, reducedMotion }) {
-  const { camera, pointer } = useThree();
+  const { camera, pointer, size } = useThree();
   const currentLookAt = useRef(new THREE.Vector3(0, 0.2, 0));
   const currentCamPos = useRef(new THREE.Vector3(0, 2, 8));
 
@@ -38,15 +34,23 @@ export default function CameraRig({ scrollProgress, reducedMotion }) {
     targetPos.copy(wpA.pos).lerp(wpB.pos, alpha);
     targetLookAt.copy(wpA.lookAt).lerp(wpB.lookAt, alpha);
 
-    // Apply subtle mouse parallax
-    const parallaxFactor = reducedMotion ? 0.0 : 0.35;
+    // Responsive Mobile Camera Adaptation: Adjust FOV/Distance for narrow screens
+    const isMobile = size.width < 768;
+    const isSmallMobile = size.width < 480;
+    
+    // Scale distance slightly on mobile so models fit in portrait view
+    const mobileZMultiplier = isSmallMobile ? 1.3 : isMobile ? 1.18 : 1.0;
+    const mobileYShift = isMobile ? 0.35 : 0.0;
+
+    // Apply subtle mouse / gyroscope parallax (disabled if reduced motion or mobile)
+    const parallaxFactor = (reducedMotion || isMobile) ? 0.0 : 0.35;
     const mouseOffsetX = pointer.x * parallaxFactor;
     const mouseOffsetY = pointer.y * (parallaxFactor * 0.4);
 
     finalTargetPos.set(
       targetPos.x + mouseOffsetX,
-      targetPos.y + mouseOffsetY,
-      targetPos.z
+      targetPos.y + mouseOffsetY + mobileYShift,
+      targetPos.z > 0 ? targetPos.z * mobileZMultiplier : targetPos.z - (mobileZMultiplier - 1.0) * 8
     );
 
     // Frame smoothing

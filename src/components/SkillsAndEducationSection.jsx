@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SKILLS_DATA, EDUCATION_DATA, LANGUAGES_DATA } from '../data/portfolio';
 import { useTheme } from '../context/ThemeContext';
-import { GraduationCap, Code2, Globe2, Sparkles, CheckCircle2, ChevronRight, BookOpen, Layers } from 'lucide-react';
+import { GraduationCap, Code2, Globe2, Layers } from 'lucide-react';
 
 export default function SkillsAndEducationSection() {
   const { triggerSound } = useTheme();
@@ -22,42 +22,40 @@ export default function SkillsAndEducationSection() {
   return (
     <section
       id="skills"
-      className="relative min-h-screen w-full py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pointer-events-auto"
+      className="relative min-h-screen w-full py-16 sm:py-24 px-3.5 sm:px-6 lg:px-8 max-w-7xl mx-auto pointer-events-auto"
     >
       {/* Zone Header Banner with Blueprint Grid Accents */}
-      <div className="mb-12 border-l-4 border-sky-400 pl-4 sm:pl-6 bg-sky-950/20 py-4 rounded-r-xl backdrop-blur-md">
-        <div className="flex items-center gap-2 text-xs font-mono text-sky-400 uppercase tracking-widest">
-          <Layers className="w-4 h-4 text-sky-400" />
+      <div className="mb-8 sm:mb-12 border-l-4 border-sky-400 pl-3.5 sm:pl-6 bg-sky-950/20 py-3.5 sm:py-4 rounded-r-xl backdrop-blur-md">
+        <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-mono text-sky-400 uppercase tracking-widest">
+          <Layers className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-400" />
           <span>ZONE 04 // TECH CORES & ACADEMIC DOSSIER</span>
         </div>
-        <h2 className="mt-1 font-display font-extrabold text-3xl sm:text-5xl text-white tracking-tight">
+        <h2 className="mt-1 font-display font-extrabold text-2xl sm:text-4xl md:text-5xl text-white tracking-tight">
           SKILLS MATRIX <span className="text-sky-400 font-light">& EDUCATION</span>
         </h2>
-        <p className="mt-2 text-slate-300 text-sm sm:text-base max-w-3xl">
+        <p className="mt-1.5 sm:mt-2 text-slate-300 text-xs sm:text-sm md:text-base max-w-3xl leading-relaxed">
           Comprehensive repository of avionics firmware, mathematical kinematic models, embedded hardware protocols, CAD solid modeling, and academic background.
         </p>
       </div>
 
-      {/* Main Grid: Skills Matrix (Left) & Education/Languages (Right) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
+      {/* Main Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
         
-        {/* ========================================================= */}
-        {/* 1. INTERACTIVE SKILLS MATRIX (7 COLS)                    */}
-        {/* ========================================================= */}
+        {/* 1. INTERACTIVE SKILLS MATRIX (7 COLS) */}
         <div className="lg:col-span-7 flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between gap-4 mb-4">
-              <div className="flex items-center gap-2 font-display font-bold text-lg text-white">
-                <Code2 className="w-5 h-5 text-sky-400" />
+            <div className="flex items-center justify-between gap-2 mb-3 sm:mb-4">
+              <div className="flex items-center gap-2 font-display font-bold text-base sm:text-lg text-white">
+                <Code2 className="w-4 h-4 sm:w-5 sm:h-5 text-sky-400" />
                 <span>TECHNICAL CAPABILITIES</span>
               </div>
-              <span className="font-mono text-xs text-sky-400 px-2.5 py-0.5 rounded bg-sky-500/10 border border-sky-500/30">
-                {filteredSkills.length} SKILLS ACTIVE
+              <span className="font-mono text-[10px] sm:text-xs text-sky-400 px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/30">
+                {filteredSkills.length} ACTIVE
               </span>
             </div>
 
-            {/* Category Filter Tabs */}
-            <div className="flex flex-wrap gap-2 mb-6">
+            {/* Category Filter Tabs (Horizontal Scrollable on Mobile) */}
+            <div className="flex items-center gap-1.5 sm:gap-2 mb-4 sm:mb-6 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-none">
               {categories.map((cat) => {
                 const isActive = selectedCategory === cat;
                 return (
@@ -68,7 +66,7 @@ export default function SkillsAndEducationSection() {
                       triggerSound('click');
                     }}
                     onMouseEnter={() => triggerSound('hover')}
-                    className={`px-3 py-1.5 rounded font-mono text-xs tracking-wider transition-all duration-200 cursor-pointer ${
+                    className={`px-2.5 sm:px-3 py-1.5 rounded font-mono text-[11px] sm:text-xs tracking-wider transition-all duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
                       isActive
                         ? 'bg-sky-500 text-black font-bold shadow-[0_0_12px_rgba(56,189,248,0.5)]'
                         : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 border border-white/10'
@@ -80,10 +78,10 @@ export default function SkillsAndEducationSection() {
               })}
             </div>
 
-            {/* Interactive Skills Grid / Node Cards */}
+            {/* Interactive Skills Grid */}
             <motion.div
               layout
-              className="grid grid-cols-1 sm:grid-cols-2 gap-3"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3"
             >
               <AnimatePresence>
                 {filteredSkills.map((skill) => {
@@ -99,25 +97,27 @@ export default function SkillsAndEducationSection() {
                         setHoveredSkill(skill);
                         triggerSound('hover');
                       }}
+                      onClick={() => {
+                        setHoveredSkill(skill);
+                        triggerSound('click');
+                      }}
                       onMouseLeave={() => setHoveredSkill(null)}
-                      className="hud-card p-3.5 rounded-lg border border-white/10 hover:border-sky-400/50 hover:bg-sky-950/20 transition-all cursor-default group"
+                      className="hud-card p-3 sm:p-3.5 rounded-lg border border-white/10 hover:border-sky-400/50 hover:bg-sky-950/20 transition-all cursor-pointer group"
                     >
-                      <div className="flex items-center justify-between gap-2 mb-1.5">
-                        <span className="font-display font-semibold text-sm text-white group-hover:text-sky-300 transition-colors">
+                      <div className="flex items-center justify-between gap-2 mb-1">
+                        <span className="font-display font-semibold text-xs sm:text-sm text-white group-hover:text-sky-300 transition-colors">
                           {skill.name}
                         </span>
-                        <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-sky-500/10 border border-sky-500/20 text-sky-400">
+                        <span className="font-mono text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded bg-sky-500/10 border border-sky-500/20 text-sky-400 shrink-0">
                           {skill.tag}
                         </span>
                       </div>
 
-                      {/* Description */}
-                      <p className="text-[11px] text-slate-400 line-clamp-2 leading-tight">
+                      <p className="text-[10px] sm:text-[11px] text-slate-400 line-clamp-2 leading-tight">
                         {skill.desc}
                       </p>
 
-                      {/* Level Progress Bar */}
-                      <div className="mt-2.5 w-full bg-white/5 h-1 rounded-full overflow-hidden">
+                      <div className="mt-2 w-full bg-white/5 h-1 rounded-full overflow-hidden">
                         <div
                           className="bg-gradient-to-r from-sky-500 to-cyan-400 h-full rounded-full transition-all duration-500"
                           style={{ width: `${skill.level}%` }}
@@ -135,63 +135,56 @@ export default function SkillsAndEducationSection() {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-6 p-4 rounded-lg bg-sky-950/40 border border-sky-500/30 font-mono text-xs flex items-center justify-between gap-4"
+              className="mt-4 sm:mt-6 p-3 sm:p-4 rounded-lg bg-sky-950/40 border border-sky-500/30 font-mono text-[11px] sm:text-xs flex items-center justify-between gap-3"
             >
               <div>
-                <span className="text-sky-400 font-bold uppercase tracking-wider">TELEMETRY INSPECT: </span>
+                <span className="text-sky-400 font-bold uppercase tracking-wider">TELEMETRY: </span>
                 <span className="text-white font-semibold">{hoveredSkill.name}</span>
-                <p className="text-slate-300 text-[11px] mt-0.5">{hoveredSkill.desc}</p>
+                <p className="text-slate-300 text-[10px] sm:text-[11px] mt-0.5">{hoveredSkill.desc}</p>
               </div>
               <div className="text-right whitespace-nowrap">
-                <span className="text-sky-400 font-display font-bold text-lg">{hoveredSkill.level}%</span>
-                <span className="block text-[9px] text-slate-400">PROFICIENCY</span>
+                <span className="text-sky-400 font-display font-bold text-base sm:text-lg">{hoveredSkill.level}%</span>
+                <span className="block text-[8px] sm:text-[9px] text-slate-400">PROFICIENCY</span>
               </div>
             </motion.div>
           )}
         </div>
 
-        {/* ========================================================= */}
-        {/* 2. EDUCATION TIMELINE & LANGUAGES (5 COLS)                */}
-        {/* ========================================================= */}
-        <div className="lg:col-span-5 flex flex-col gap-8">
+        {/* 2. EDUCATION TIMELINE & LANGUAGES (5 COLS) */}
+        <div className="lg:col-span-5 flex flex-col gap-6 sm:gap-8">
           
           {/* Education Timeline */}
-          <div className="hud-card p-6 sm:p-7 rounded-xl border border-white/10">
-            <div className="flex items-center gap-2 mb-6 font-display font-bold text-lg text-white">
-              <GraduationCap className="w-5 h-5 text-sky-400" />
+          <div className="hud-card p-4 sm:p-6 lg:p-7 rounded-xl border border-white/10">
+            <div className="flex items-center gap-2 mb-4 sm:mb-6 font-display font-bold text-base sm:text-lg text-white">
+              <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5 text-sky-400" />
               <span>ACADEMIC DOSSIER</span>
             </div>
 
-            <div className="space-y-6 relative before:absolute before:top-2 before:bottom-2 before:left-[11px] before:w-[2px] before:bg-sky-500/30">
+            <div className="space-y-5 sm:space-y-6 relative before:absolute before:top-2 before:bottom-2 before:left-[9px] sm:before:left-[11px] before:w-[2px] before:bg-sky-500/30">
               {EDUCATION_DATA.map((edu, index) => (
-                <div key={`edu-${index}`} className="relative pl-7 group">
-                  {/* Timeline Dot */}
-                  <div className="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-[#080a0f] border-2 border-sky-400 flex items-center justify-center text-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.5)]">
+                <div key={`edu-${index}`} className="relative pl-6 sm:pl-7 group">
+                  <div className="absolute left-0 top-1.5 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#080a0f] border-2 border-sky-400 flex items-center justify-center text-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.5)]">
                     <div className="w-1.5 h-1.5 rounded-full bg-sky-400" />
                   </div>
 
-                  {/* Degree & Status */}
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="font-display font-bold text-sm sm:text-base text-white group-hover:text-sky-300 transition-colors">
+                  <div className="flex flex-wrap items-center justify-between gap-1.5">
+                    <span className="font-display font-bold text-xs sm:text-sm md:text-base text-white group-hover:text-sky-300 transition-colors">
                       {edu.degree}
                     </span>
-                    <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/30 text-sky-300 font-semibold">
+                    <span className="font-mono text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/30 text-sky-300 font-semibold">
                       {edu.duration}
                     </span>
                   </div>
 
-                  {/* Institution & Location */}
-                  <div className="font-mono text-xs text-sky-400 mt-1">
+                  <div className="font-mono text-[11px] sm:text-xs text-sky-400 mt-0.5">
                     {edu.institution} <span className="text-slate-400">({edu.location})</span>
                   </div>
 
-                  {/* Status chip */}
-                  <div className="inline-block font-mono text-[10px] text-slate-300 px-2 py-0.5 rounded bg-white/5 border border-white/10 mt-2">
+                  <div className="inline-block font-mono text-[9px] sm:text-[10px] text-slate-300 px-2 py-0.5 rounded bg-white/5 border border-white/10 mt-1.5">
                     {edu.status}
                   </div>
 
-                  {/* Focus Description */}
-                  <p className="text-slate-300 text-xs mt-2 leading-relaxed">
+                  <p className="text-slate-300 text-xs mt-1.5 leading-relaxed">
                     {edu.focus}
                   </p>
                 </div>
@@ -200,25 +193,25 @@ export default function SkillsAndEducationSection() {
           </div>
 
           {/* Languages Spoken */}
-          <div className="hud-card p-6 sm:p-7 rounded-xl border border-white/10">
-            <div className="flex items-center gap-2 mb-4 font-display font-bold text-lg text-white">
-              <Globe2 className="w-5 h-5 text-sky-400" />
+          <div className="hud-card p-4 sm:p-6 lg:p-7 rounded-xl border border-white/10">
+            <div className="flex items-center gap-2 mb-3 sm:mb-4 font-display font-bold text-base sm:text-lg text-white">
+              <Globe2 className="w-4 h-4 sm:w-5 sm:h-5 text-sky-400" />
               <span>NATURAL LANGUAGES</span>
             </div>
 
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
               {LANGUAGES_DATA.map((lang, index) => (
                 <div
                   key={`lang-${index}`}
-                  className="p-3 rounded-lg bg-white/5 border border-white/10 text-center"
+                  className="p-2.5 sm:p-3 rounded-lg bg-white/5 border border-white/10 text-center"
                 >
-                  <div className="font-display font-bold text-base text-white">
+                  <div className="font-display font-bold text-xs sm:text-base text-white truncate">
                     {lang.name}
                   </div>
-                  <div className="font-mono text-[10px] text-sky-400 mt-0.5">
+                  <div className="font-mono text-[9px] sm:text-[10px] text-sky-400 mt-0.5 truncate">
                     {lang.type}
                   </div>
-                  <div className="mt-2 w-full bg-white/10 h-1 rounded-full overflow-hidden">
+                  <div className="mt-1.5 sm:mt-2 w-full bg-white/10 h-1 rounded-full overflow-hidden">
                     <div
                       className="bg-sky-400 h-full rounded-full"
                       style={{ width: `${lang.level}%` }}
